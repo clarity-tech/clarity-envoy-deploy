@@ -1,0 +1,19 @@
+{
+    "name": "clarity-tech/clarity-envoy-deploy",
+    "description": "Deployment scripts for envoy standard zero deployments along with gitlab templates",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "ClarityTech\\ClarityEnvoyDeploy\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "msonowal",
+            "email": "manash149@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
