@@ -1,0 +1,30 @@
+
+.env_setup_staging:
+  script:
+    - cat $ENV_STAGING > $RELEASE_TAG.env
+
+.deploy_setup_staging:
+  stage: deploy
+  extends:
+    - .prepare_ssh_setup
+  variables:
+    # GIT_STRATEGY: none
+    SSH_KEY_ID: $DEPLOYER_SSH_KEY_ID
+    PROJECT_DIR: staging.claritytech.io
+    RELEASE_TAG: $CI_COMMIT_SHORT_SHA-$CI_PIPELINE_ID-staging
+    TARGET_HOST: your-server-alias
+    TARGET_DIR: /home/deployer/$PROJECT_DIR/releases
+  resource_group: staging
+  environment:
+    name: staging
+    deployment_tier: testing
+    url: https://staging.claritytech.io
+  when: manual
+  only:
+    - main
+    - pre-release
+    - develop
+  tags:
+    - clarity
+    - deploy
+    - production

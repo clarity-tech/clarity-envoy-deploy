@@ -1,0 +1,45 @@
+
+rollback staging:
+  stage: rollback
+  dependencies:
+    - build backend
+  needs: ["build backend"]
+  extends:
+    - .deploy_setup_staging
+  script:
+    - echo "Rolling back Deployment to last Deployment $CI_COMMIT_REF_NAME"
+    - envoy run rollback
+
+rollback staging with db rollback:
+  stage: rollback
+  dependencies:
+    - build backend
+  needs: ["build backend"]
+  extends:
+    - .deploy_setup_staging
+  script:
+    - echo "Rolling back Deployment to last Deployment $CI_COMMIT_REF_NAME"
+    - envoy run rollback --migrate_back=true
+
+
+rollback production:
+  stage: rollback
+  dependencies:
+    - build backend
+  needs: ["build backend"]
+  extends:
+    - .deploy_setup_prod
+  script:
+    - echo "Rolling back Deployment to last Deployment $CI_COMMIT_REF_NAME"
+    - envoy run rollback
+
+rollback production with db rollback:
+  stage: rollback
+  dependencies:
+    - build backend
+  needs: ["build backend"]
+  extends:
+    - .deploy_setup_prod
+  script:
+    - echo "Rolling back Deployment to last Deployment $CI_COMMIT_REF_NAME"
+    - envoy run rollback --migrate_back=true
