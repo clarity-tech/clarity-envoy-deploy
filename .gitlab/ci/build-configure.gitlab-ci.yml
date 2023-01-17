@@ -1,0 +1,75 @@
+
+.backend_build:
+  dependencies: []
+  cache:
+    - key:
+        files:
+          - composer.lock
+      paths:
+        - .composer-cache/
+  script:
+    - composer config -g cache-dir "$(pwd)/.composer-cache"
+    # it will be build on production env
+    - composer install --no-dev --no-interaction --optimize-autoloader
+  artifacts:
+    public: false
+    paths:
+      - vendor
+      - public/vendor
+    when: always
+  interruptible: true
+
+.frontend_build:
+  dependencies: []
+  cache:
+    - key:
+        files:
+          - yarn.lock
+      paths:
+        - .yarn-cache/
+  script:
+    - yarn install --frozen-lockfile --non-interactive --cache-folder .yarn-cache
+    - yarn build
+  artifacts:
+    public: false
+    paths:
+      - public/build
+    # expire_in: 30 mins
+    # when: always
+  interruptible: true
+
+build frontend:
+  stage: build
+  extends:
+    # - .env_setup_staging
+    - .frontend_build
+  only:
+    - main
+    - develop
+    - pre-release
+    - tags
+
+build backend:
+  stage: build
+  extends:
+    - .backend_build
+  only:
+    - main
+    - develop
+    - pre-release
+    - tags
+
+build backend test:
+  stage: build
+  extends:
+    - .backend_build
+  # before_script:
+  #   - cp .env.testing .env
+  script:
+    - composer config -g cache-dir "$(pwd)/.composer-cache"
+    - echo "Check if it can be build successfully on Dev config"
+    - composer install --no-interaction --optimize-autoloader
+    # - php artisan key:generate
+    # - php artisan up
+  except:
+    - tags

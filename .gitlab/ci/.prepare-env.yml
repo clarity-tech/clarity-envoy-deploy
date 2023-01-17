@@ -1,0 +1,17 @@
+.prepare_ssh_setup:
+  cache: []
+  dependencies: []
+  needs: []
+  tags:
+    - clarity
+    - deploy
+    - production
+  before_script:
+    # Install ssh-agent if not already installed, it is required by Docker.
+    # - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+    # Run ssh-agent (inside the build environment)
+    - eval $(ssh-agent -s)
+    - mkdir -p ~/.ssh
+    - cat $SSH_CONFIG > ~/.ssh/config
+    - cat $SSH_KEY_ID > ~/.ssh/id_deployment
+    - chmod 0600 ~/.ssh/id_deployment

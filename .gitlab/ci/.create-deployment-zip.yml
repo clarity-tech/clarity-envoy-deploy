@@ -1,0 +1,10 @@
+.create_zip:
+  script:
+    - echo "Preparing Deployment Release $RELEASE_TAG for $CI_ENVIRONMENT_NAME $CI_ENVIRONMENT_TIER"
+    - echo -e "\e[0Ksection_start:`date +%s`:deploy_section\r\e[0KCreating Deployment zip archieve"
+    - zip -rq $RELEASE_TAG.zip ./* --exclude="*.git*" --exclude="*.env.example*" --exclude="*.env.testing*" --exclude="*runtimes*" --exclude="*node_modules*" --exclude="resources/js/*" --exclude="readme.md" --exclude="phpunit.xml*" --exclude="package.json" --exclude="vite.config.js" --exclude="yarn.lock" --exclude=".editorconfig" --exclude="docker-compose.yml" --exclude="tests/*"
+    # - ls -lha $RELEASE_TAG.zip
+    - echo -e "\e[0Ksection_end:`date +%s`:deploy_section\r\e[0K"
+    - echo -e "\e[0Ksection_start:`date +%s`:deploy_section_zip\r\e[0KUploading deployment zip"
+    - scp $RELEASE_TAG.zip $TARGET_HOST:$TARGET_DIR
+    - echo -e "\e[0Ksection_end:`date +%s`:deploy_section_zip\r\e[0K"

@@ -1,0 +1,33 @@
+
+deploy production:
+  dependencies:
+    - build backend
+    - build frontend
+  needs: ["build backend", "build frontend"]
+  extends:
+    - .deploy_setup_prod
+  script:
+    - !reference [.env_setup_prod, script]
+    - !reference [.deploy, script]
+
+deploy production with DB MIGRATE:
+  dependencies:
+    - build backend
+    - build frontend
+  needs: ["build backend", "build frontend"]
+  extends:
+    - .deploy_setup_prod
+  script:
+    - !reference [.env_setup_prod, script]
+    - !reference [.deploy_with_db, script]
+
+deploy production ENV only:
+  extends:
+    - .deploy_setup_prod
+  cache: []
+  dependencies:
+    - build backend
+  needs: ["build backend"]
+  script:
+    - !reference [.env_setup_prod, script]
+    - !reference [.deploy_env, script]

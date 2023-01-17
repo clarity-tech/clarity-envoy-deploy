@@ -1,0 +1,33 @@
+
+deploy staging:
+  dependencies:
+    - build backend
+    - build frontend
+  needs: ["build backend", "build frontend"]
+  extends:
+    - .deploy_setup_staging
+  script:
+    - !reference [.env_setup_staging, script]
+    - !reference [.deploy, script]
+
+deploy staging with DB MIGRATE:
+  dependencies:
+    - build backend
+    - build frontend
+  needs: ["build backend", "build frontend"]
+  extends:
+    - .deploy_setup_staging
+  script:
+    - !reference [.env_setup_staging, script]
+    - !reference [.deploy_with_db, script]
+
+deploy staging ENV only:
+  extends:
+    - .deploy_setup_staging
+  cache: []
+  dependencies:
+    - build backend
+  needs: ["build backend"]
+  script:
+    - !reference [.env_setup_staging, script]
+    - !reference [.deploy_env, script]

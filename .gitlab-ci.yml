@@ -1,0 +1,18 @@
+before_script:
+  - '[[ ! -e /.dockerenv ]] && exit 0'
+stages:
+  - build
+  - test
+  - coverage
+  - codequality
+  - security
+  - deploy
+  - rollback
+image: ghcr.io/msonowal/docker-php-node:php81
+
+variables:
+  MYSQL_DATABASE: wmpa
+  MYSQL_ROOT_PASSWORD: password
+
+include:
+  - local: .gitlab/ci/**.yml
