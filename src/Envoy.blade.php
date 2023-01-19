@@ -181,16 +181,22 @@ cat {{ $last_release_file }}
 @endtask
 
 @task('restart-queues')
+{{ logMessage("restart-queues is executing") }}
 
 cd {{ $current_release }}
 
 php artisan queue:restart
 @if($horizon)
+{{ logMessage("horizon is set to true, So termination is STARTED") }}
 php artisan horizon:terminate
 php artisan horizon:purge
+@else
+{{ logMessage("horizon is set to false") }}
 @endif
 php artisan queue:restart
 @endtask
+
+{{ logMessage("restart-queues is finished") }}
 
 @task('update_symlinks')
 {{ logMessage("update_symlinks is STARTED") }}
