@@ -1,7 +1,7 @@
 @servers(['web' => getenv('TARGET_HOST')])
 <?php
 $projectDir = getenv('PROJECT_DIR');
-$fullProjectDir = $fullProjectDir?? '/home/deployer/' . $projectDir;
+$fullProjectDir = $fullProjectDir ?? '/home/deployer/' . $projectDir;
 $release_dir = $fullProjectDir . '/releases';
 $current_release = $fullProjectDir . '/current';
 $persist_dir = $fullProjectDir . '/persist';
@@ -25,7 +25,7 @@ $local_ci_env_file = "$ciProjectDir/.env";
 @setup
 $sha = $sha;
 $archive = $sha;
-$horizon = true;
+$horizon = $horizon?? false;
 
 $migrate = $migrate?? false;
 $migrateBack = $migrate_back?? false;
