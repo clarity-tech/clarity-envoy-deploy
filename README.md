@@ -3,9 +3,12 @@ A standard failsafe zero downtime deployment scripts used in our projects at Cla
 
 
 # step 1)
-* copy the gitlab yaml files to your project folder
+Go here https://gitlab.com/clarity-tech/dev-ops/pipelines
+
+and read the ## Usage section 
+<!-- * copy the gitlab yaml files to your project folder
 * copy `.gitlab-ci.yml` to your project repo root
-* copy folder `.gitlab/ci` to your project repo
+* copy folder `.gitlab/ci` to your project repo -->
 
 
 # step 2)
