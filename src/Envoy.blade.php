@@ -13,6 +13,9 @@ $webhookUrl = getenv('SLACK_WEBHOOK_DEPLOY');
 
 $ciProjectDir = getenv('CI_BUILDS_DIR');
 $commitSha = getenv('CI_COMMIT_SHORT_SHA');
+if (getenv('CI_COMMIT_TAG')) {
+    $commitSha = getenv('CI_COMMIT_TAG');
+}
 $ciProjectName = getenv('CI_PROJECT_NAME');
 $ciEnvSlug = getenv('CI_ENVIRONMENT_SLUG');
 $ciProjectUrl = getenv('CI_PROJECT_URL');
@@ -31,20 +34,20 @@ $migrate = $migrate?? false;
 $migrateBack = $migrate_back?? false;
 
 function logMessage($message) {
-return "echo '\033[32m" .$message. "\033[0m';\n";
+    return "echo '\033[32m" .$message. "\033[0m';\n";
 }
 
 @endsetup
 
 @success
 
-@slack($webhookUrl, '#deploys', ':white_check_mark: Successfully Ran Task `' . $__task . '` on '. "*$ciProjectName* $ciProjectUrl" .' environment `'. $ciEnvSlug . '` commit `'. $commitSha .'` project dir `'. $fullProjectDir . '` *View Job* '. $ciJobUrl)
+@slack($webhookUrl, '#deploys', ':white_check_mark: Successfully Ran Task `' . $__task . '` on '. "*$ciProjectName* $ciProjectUrl" .' environment `'. $ciEnvSlug . '` commit `'. $commitSha .'` target dir `'. $fullProjectDir . '` *View Job* '. $ciJobUrl)
 
 @endsuccess
 
 @error
 
-@slack($webhookUrl, '#deploys', ':exclamation: Error running Task `' . $__task . '` on '. "*$ciProjectName* $ciProjectUrl" . ' environment `'. $ciEnvSlug . '` commit `'. $commitSha .'` project dir `'. $fullProjectDir . '` *View Job* '. $ciJobUrl)
+@slack($webhookUrl, '#deploys', ':exclamation: Error running Task `' . $__task . '` on '. "*$ciProjectName* $ciProjectUrl" . ' environment `'. $ciEnvSlug . '` commit `'. $commitSha .'` target dir `'. $fullProjectDir . '` *View Job* '. $ciJobUrl)
 
 @enderror
 
