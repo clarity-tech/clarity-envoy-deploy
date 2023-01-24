@@ -1,6 +1,6 @@
 @servers(['web' => getenv('TARGET_HOST')])
 <?php
-$projectDir = getenv('PROJECT_DIR');
+$projectDir = getenv('DEPLOY_PROJECT_DIR');
 $fullProjectDir = $fullProjectDir ?? '/home/deployer/' . $projectDir;
 $release_dir = $fullProjectDir . '/releases';
 $current_release = $fullProjectDir . '/current';
