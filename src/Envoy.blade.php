@@ -20,6 +20,7 @@ $ciProjectName = getenv('CI_PROJECT_NAME');
 $ciEnvSlug = getenv('CI_ENVIRONMENT_SLUG');
 $ciProjectUrl = getenv('CI_PROJECT_URL');
 $ciJobUrl = getenv('CI_JOB_URL');
+$ciAuthor = getenv('GITLAB_USER_NAME');
 
 $local_ci_env_file = "$ciProjectDir/.env";
 
@@ -34,20 +35,20 @@ $migrate = $migrate?? false;
 $migrateBack = $migrate_back?? false;
 
 function logMessage($message) {
-    return "echo '\033[32m" .$message. "\033[0m';\n";
+return "echo '\033[32m" .$message. "\033[0m';\n";
 }
 
 @endsetup
 
 @success
 
-@slack($webhookUrl, '#deploys', ':white_check_mark: Successfully Ran Task `' . $__task . '` on '. "*$ciProjectName* $ciProjectUrl" .' environment `'. $ciEnvSlug . '` commit `'. $commitSha .'` target dir `'. $fullProjectDir . '` *View Job* '. $ciJobUrl)
+@slack($webhookUrl, '#deploys', ':white_check_mark: Successfully Ran Task `' . $__task . '` on '. "*$ciProjectName* $ciProjectUrl" .' environment `'. $ciEnvSlug . '` commit `'. $commitSha .'` target dir `'. $fullProjectDir . '` by '. $ciAuthor .'. *View Job* '. $ciJobUrl)
 
 @endsuccess
 
 @error
 
-@slack($webhookUrl, '#deploys', ':exclamation: Error running Task `' . $__task . '` on '. "*$ciProjectName* $ciProjectUrl" . ' environment `'. $ciEnvSlug . '` commit `'. $commitSha .'` target dir `'. $fullProjectDir . '` *View Job* '. $ciJobUrl)
+@slack($webhookUrl, '#deploys', ':exclamation: Error running Task `' . $__task . '` on '. "*$ciProjectName* $ciProjectUrl" . ' environment `'. $ciEnvSlug . '` commit `'. $commitSha .'` target dir `'. $fullProjectDir . '` by '. $ciAuthor .'. *View Job* '. $ciJobUrl)
 
 @enderror
 
