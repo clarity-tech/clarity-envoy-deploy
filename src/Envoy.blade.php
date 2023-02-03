@@ -194,6 +194,7 @@ php artisan queue:restart
 {{ logMessage("horizon is set to true, So termination is STARTED") }}
 php artisan horizon:terminate
 php artisan horizon:purge
+php artisan horizon:status
 @else
 {{ logMessage("horizon is set to false") }}
 @endif
