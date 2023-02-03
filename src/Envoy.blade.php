@@ -192,9 +192,8 @@ cd {{ $current_release }}
 php artisan queue:restart
 @if($horizon)
 {{ logMessage("horizon is set to true, So termination is STARTED") }}
-php artisan horizon:terminate
 php artisan horizon:purge
-php artisan horizon:status
+php artisan horizon:terminate
 @else
 {{ logMessage("horizon is set to false") }}
 @endif
