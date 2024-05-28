@@ -34,6 +34,8 @@ $horizon = $horizon?? false;
 $migrate = $migrate?? false;
 $migrateBack = $migrate_back?? false;
 
+$phpVersion = $phpver?? '8.1';
+
 function logMessage($message) {
 return "echo '\033[32m" .$message. "\033[0m';\n";
 }
@@ -174,8 +176,7 @@ php artisan view:cache
 
 php artisan config:cache
 
-# Reload PHP-FPM gracefully
-sudo service php8.1-fpm reload
+sudo service php{{$phpVersion}}-fpm reload
 
 {{ logMessage("DEPLOYED CURRENT RELEASE=") }}
 cat {{ $current_release_file }}
