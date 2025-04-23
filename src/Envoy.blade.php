@@ -194,7 +194,10 @@ cat {{ $last_release_file }}
 @task('restart-queues')
 {{ logMessage("restart-queues is executing") }}
 
+echo {{ $current_release }}
+
 cd {{ $current_release }}
+
 @if(! $isLaravelLumen)
 {{ logMessage("Not Laravel Lumen") }}
 php artisan queue:restart
