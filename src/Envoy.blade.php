@@ -198,6 +198,9 @@ echo {{ $current_release }}
 
 cd {{ $current_release }}
 
+{{ logMessage("Inside current release") }}
+
+
 @if(! $isLaravelLumen)
 {{ logMessage("Not Laravel Lumen") }}
 php artisan queue:restart
