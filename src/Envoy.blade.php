@@ -192,11 +192,10 @@ cat {{ $last_release_file }}
 @endtask
 
 @task('restart-queues')
-@if(! $isLaravelLumen)
 {{ logMessage("restart-queues is executing") }}
 
 cd {{ $current_release }}
-
+@if(! $isLaravelLumen)
 php artisan queue:restart
 
 @if($horizon)
