@@ -214,9 +214,8 @@ php artisan horizon:terminate
 @endif
 php artisan queue:restart
 @endif
-@endtask
-
 {{ logMessage("restart-queues is finished") }}
+@endtask
 
 @task('update_symlinks')
 {{ logMessage("update_symlinks is STARTED") }}
