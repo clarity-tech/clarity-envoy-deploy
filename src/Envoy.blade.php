@@ -46,18 +46,13 @@ return "echo '\033[32m" .$message. "\033[0m';\n";
 @endsetup
 
 @success
-{{ logMessage("deployed") }}
-@if ($webhookUrl)
 @slack($webhookUrl, '#deploys', ':white_check_mark: Successfully Ran Task `' . $__task . '` on '. "*$ciProjectName* $ciProjectUrl" .' environment `'. $ciEnvSlug . '` commit `'. $commitSha .'` target dir `'. $fullProjectDir . '` by '. $ciAuthor .'. *View Job* '. $ciJobUrl)
-@endif
 
 @endsuccess
 
 @error
-{{ logMessage("error on deploy") }}
-@if ($webhookUrl)
 @slack($webhookUrl, '#deploys', ':exclamation: Error running Task `' . $__task . '` on '. "*$ciProjectName* $ciProjectUrl" . ' environment `'. $ciEnvSlug . '` commit `'. $commitSha .'` target dir `'. $fullProjectDir . '` by '. $ciAuthor .'. *View Job* '. $ciJobUrl)
-@endif
+
 @enderror
 
 
