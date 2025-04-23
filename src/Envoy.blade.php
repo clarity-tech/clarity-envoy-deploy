@@ -21,6 +21,7 @@ $ciEnvSlug = getenv('CI_ENVIRONMENT_SLUG');
 $ciProjectUrl = getenv('CI_PROJECT_URL');
 $ciJobUrl = getenv('CI_JOB_URL');
 $ciAuthor = getenv('GITLAB_USER_NAME');
+$isLaravelLumen = getenv('IS_LARAVEL_LUMEN');
 
 $local_ci_env_file = "$ciProjectDir/.env";
 
@@ -33,6 +34,8 @@ $horizon = $horizon?? false;
 
 $migrate = $migrate?? false;
 $migrateBack = $migrate_back?? false;
+
+$isLaravelLumen = $isLaravelLumen?? false;
 
 $phpVersion = $phpver?? '8.1';
 
@@ -166,6 +169,8 @@ ls -lha
 ls -lhad public/*
 
 php artisan cache:clear
+
+@if(! $isLaravelLumen)
 php artisan config:clear
 php artisan route:clear
 php artisan view:clear
@@ -175,6 +180,7 @@ php artisan event:cache
 php artisan view:cache
 
 php artisan config:cache
+@endif
 
 sudo service php{{$phpVersion}}-fpm reload
 
@@ -191,6 +197,8 @@ cat {{ $last_release_file }}
 cd {{ $current_release }}
 
 php artisan queue:restart
+
+@if(! $isLaravelLumen)
 @if($horizon)
 {{ logMessage("horizon is set to true, So termination is STARTED") }}
 php artisan horizon:purge
@@ -199,6 +207,7 @@ php artisan horizon:terminate
 {{ logMessage("horizon is set to false") }}
 @endif
 php artisan queue:restart
+@endif
 @endtask
 
 {{ logMessage("restart-queues is finished") }}
