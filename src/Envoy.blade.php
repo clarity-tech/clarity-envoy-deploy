@@ -191,6 +191,7 @@ cat {{ $last_release_file }}
 
 @endtask
 
+@if(! $isLaravelLumen)
 @task('restart-queues')
 {{ logMessage("restart-queues is executing") }}
 
@@ -198,7 +199,6 @@ cd {{ $current_release }}
 
 php artisan queue:restart
 
-@if(! $isLaravelLumen)
 @if($horizon)
 {{ logMessage("horizon is set to true, So termination is STARTED") }}
 php artisan horizon:purge
@@ -207,10 +207,10 @@ php artisan horizon:terminate
 {{ logMessage("horizon is set to false") }}
 @endif
 php artisan queue:restart
-@endif
 @endtask
 
 {{ logMessage("restart-queues is finished") }}
+@endif
 
 @task('update_symlinks')
 {{ logMessage("update_symlinks is STARTED") }}
