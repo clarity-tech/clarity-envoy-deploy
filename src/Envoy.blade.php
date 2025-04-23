@@ -46,25 +46,6 @@ return "echo '\033[32m" .$message. "\033[0m';\n";
 @endsetup
 
 
-@success
-if (is_null($webhookUrl)) {
-    logMessage("deployed");
-}
-else {
-    @slack($webhookUrl, '#deploys', ':white_check_mark: Successfully Ran Task `' . $__task . '` on '. "*$ciProjectName* $ciProjectUrl" .' environment `'. $ciEnvSlug . '` commit `'. $commitSha .'` target dir `'. $fullProjectDir . '` by '. $ciAuthor .'. *View Job* '. $ciJobUrl)
-}
-@endsuccess
-
-@error
-if (is_null($webhookUrl)) {
-    logMessage("error deployed");
-}
-else {
-    @slack($webhookUrl, '#deploys', ':exclamation: Error running Task `' . $__task . '` on '. "*$ciProjectName* $ciProjectUrl" . ' environment `'. $ciEnvSlug . '` commit `'. $commitSha .'` target dir `'. $fullProjectDir . '` by '. $ciAuthor .'. *View Job* '. $ciJobUrl)
-}
-@enderror
-
-
 @story('deploy')
 init_dirs
 extract_zip
