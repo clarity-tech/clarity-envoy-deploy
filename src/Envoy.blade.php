@@ -196,6 +196,7 @@ cat {{ $last_release_file }}
 
 cd {{ $current_release }}
 @if(! $isLaravelLumen)
+{{ logMessage("Not Laravel Lumen") }}
 php artisan queue:restart
 
 @if($horizon)
